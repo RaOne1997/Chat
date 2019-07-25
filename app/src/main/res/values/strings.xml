@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Chat</string>
+    <string name="registration">registration</string>
+    <string name="login_btn">login_btn</string>
+    <string name="submit">submit</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="display_name">display_name</string>
+    <string name="create_new_accound">create new accound</string>
+    <string name="login_alred">Already have Account?..Login</string>
+    <string name="login_ac">login_ac</string>
+    <string name="not_have_ac">Not Already Have Account?..Register</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create Account</string>
+    <string name="forgot_password">Forgot Password..?</string>
+    <string name="home_nav">Home</string>
+    <string name="profile_nav">Profile</string>
+    <string name="users_nav">Users</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="homefragment">homefragment</string>
+    <string name="Username">UserName</string>
+    <string name="profile_fragenment">Profile Fragenment</string>
+    <string name="About">hey_i_am_using_schat</string>
+    <string name="uid_hint">This is not your user id this only Dsiplay name for your Schat contact</string>
+    <string name="name">Name</string>
+    <string name="mobilenumber">Mobile Number</string>
+    <string name="About2">About</string>
+    <string name="mobile">Mobile</string>
+</resources>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".regirester">
+    <FrameLayout
+        android:id="@+id/fram"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+       android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/image"
+        android:backgroundTint="@color/colorBlack"
+
+        >
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="100dp"
+            android:text="@string/create_new_accound"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textAllCaps="true"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/gamil_signin"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="348dp">
+
+
+    </com.google.android.gms.common.SignInButton>
+
+
+    <Button
+
+        android:id="@+id/submit"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="411dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimary"
+        android:drawableStart="@drawable/ic_register_white"
+        android:text="@string/create_account"
+        tools:ignore="RelativeOverlap" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/fram"
+        android:layout_marginTop="-64dp"
+        android:background="@color/colorWhite"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/Email_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
+
+            android:background="@drawable/edittextlayout">
+
+            <EditText
+                android:id="@+id/Enail_R"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="Email"
+                android:hint="@string/email"
+
+                android:inputType="textEmailAddress" />
+
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passlayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/edittextlayout"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/Password_R"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+
+
+                />
+        </android.support.design.widget.TextInputLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/have_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="486dp"
+        android:text="@string/login_alred"
+        android:textColor="@color/colorBlack"
+        android:textStyle="bold" />
+
+</RelativeLayout>
