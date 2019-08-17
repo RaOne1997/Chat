@@ -65,8 +65,32 @@ public class DashBoard extends AppCompatActivity {
             }
         });
     }
-        @Override
+    private void checkuserstatus(){
+
+        FirebaseUser user  =mAuth.getCurrentUser();
+
+        if (user!=null){
+
+            //display user  info
+
+
+
+        }else{
+            startActivity(new Intent(DashBoard.this,MainActivity.class));
+            finish();
+        }
+    }
+
+      @Override
+        protected void onStart() {
+            checkuserstatus();
+            super.onStart();
+
+        }
+
+/*        @Override
         public void onStart() {
+
             super.onStart();
             // Check if user is signed in (non-null) and update UI accordingly.
             FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -83,9 +107,9 @@ public class DashBoard extends AppCompatActivity {
             startActivity(Startintent);
             finish();
 
-        }
+        }*/
 
-    @Override
+       @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
         return super.onCreateOptionsMenu(menu);
@@ -97,7 +121,7 @@ public class DashBoard extends AppCompatActivity {
         int id=item.getItemId();
         if (id==R.id.logout_item) {
             mAuth.signOut();
-            sendtostart();
+            checkuserstatus();
 
         }
         if (id==R.id.prof){
@@ -153,8 +177,8 @@ public class DashBoard extends AppCompatActivity {
                        }
                        return  false;
                    }
-               };
-        private void checkuserstatus(){
+               };*/
+     /*   private void checkuserstatus(){
 
             FirebaseUser user  =mAuth.getCurrentUser();
 
@@ -170,7 +194,7 @@ public class DashBoard extends AppCompatActivity {
             }
         }
 
-        @Override
+      /*  @Override
         protected void onStart() {
             checkuserstatus();
             super.onStart();

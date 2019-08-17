@@ -4,7 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
- class SectionPageAdapter extends FragmentPagerAdapter {
+import com.example.chat.Fragenment.Chat;
+import com.example.chat.Fragenment.Friend;
+import com.example.chat.Fragenment.Request;
+
+class SectionPageAdapter extends FragmentPagerAdapter {
      int counttab;
     public SectionPageAdapter(FragmentManager fm, int counttab) {
         super(fm);

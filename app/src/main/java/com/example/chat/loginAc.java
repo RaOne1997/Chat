@@ -40,7 +40,7 @@ public class loginAc extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Login");
-      //  actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorShowWhite)));
+
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         mAuth=FirebaseAuth.getInstance();
@@ -68,7 +68,7 @@ public class loginAc extends AppCompatActivity {
         Log_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            Log_btn.setText("Logging.....!");
 
 
                 String email =log_email.getText().toString();
@@ -194,5 +194,11 @@ public class loginAc extends AppCompatActivity {
 
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log_btn.setText("Login");
     }
 }

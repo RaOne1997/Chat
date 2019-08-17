@@ -4,32 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".prof">
-    <com.makeramen.roundedimageview.RoundedImageView
+
+    <ImageView
         android:id="@+id/cover_pic"
-        app:riv_border_width="1dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="fitCenter"
-        app:riv_mutate_background="true"
-        app:riv_corner_radius="10dp"
-        app:riv_tile_mode="repeat"
-        tools:src="@drawable/cover"
-        />
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/cover"
+        android:scaleType="fitCenter" />
 
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/Dp_pic"
         android:layout_width="136dp"
         android:layout_height="138dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="122dp"
+        android:layout_marginEnd="141dp"
+android:layout_centerHorizontal="true"
 
-        tools:src="@drawable/images" />
+        android:src="@drawable/images" />
 
 
     <ImageButton
@@ -40,7 +37,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="80dp"
         android:layout_marginTop="230dp"
-        android:layout_marginEnd="148dp"
+        android:layout_marginEnd="142dp"
         android:background="@drawable/add_pic"
         android:backgroundTint="@color/colorPrimary" />
 
@@ -49,171 +46,195 @@
         android:id="@+id/cover_change"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="300dp"
         android:layout_marginTop="180dp"
+        android:layout_marginEnd="51dp"
         android:background="@drawable/ddd" />
 
+    <LinearLayout
+        android:id="@+id/editdisplay"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="300dp"
+        android:orientation="vertical"
 
-    <TextView
+        >
 
-        android:id="@+id/Name_disp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="50dp"
+            android:text="@string/name" />
 
-        android:layout_marginStart="54dp"
-        android:layout_marginTop="321dp"
+<LinearLayout
 
-        android:text="@string/display_name"
-        android:textColor="@color/colorBlack" />
-
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingStart="9dp"
+    android:paddingEnd="9dp"
+    android:weightSum="10"
+    >
     <ImageView
-        android:layout_width="22dp"
-        android:layout_height="26dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="316dp"
-        android:layout_marginEnd="313dp"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:src="@drawable/useravater"
+        android:layout_weight="1
+"
 
-        android:background="@drawable/userav" />
+        />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
+        <TextView
 
-        android:layout_marginTop="298dp"
-        android:layout_marginEnd="287dp"
-
-        android:text="@string/name" />
-
-    <TextView
-
-        android:id="@+id/Dname"
-        android:layout_width="230dp"
-        android:layout_height="27dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-
-        android:layout_marginStart="54dp"
-        android:layout_marginTop="345dp"
-
-        android:text="@string/uid_hint"
-        android:textSize="10sp" />
+            android:id="@+id/Name_disp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:text="@string/display_name"
+            android:layout_weight="8"
+            android:textColor="@color/colorBlack" />
 
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="16dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:src="@drawable/edit"
+        android:layout_weight="1"
 
-        android:layout_marginTop="382dp"
-        android:layout_marginEnd="318dp"
+        />
+</LinearLayout>
 
-        android:background="@drawable/about" />
+
+
+
+        <TextView
+
+            android:id="@+id/Dname"
+            android:layout_width="230dp"
+            android:layout_height="27dp"
+            android:paddingStart="50dp"
+            android:text="@string/uid_hint"
+            android:textSize="10sp" />
+
+</LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/about_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="9dp"
+        android:layout_below="@+id/editdisplay"
+        android:layout_marginTop="40dp"
+        android:paddingEnd="9dp"
+        android:weightSum="10"
+        >
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/about" />
 
     <TextView
         android:id="@+id/about_W"
-        android:layout_width="281dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-
-        android:layout_marginStart="54dp"
-        android:layout_marginTop="381dp"
-        android:layout_marginEnd="82dp"
-
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingStart="15dp"
+        android:layout_weight="8"
         android:text="@string/About"
         android:textColor="@color/colorBlack" />
 
 
-    <ImageButton
 
-        android:id="@+id/about_btn"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="380dp"
-        android:layout_marginEnd="34dp"
 
-        android:background="@android:drawable/ic_menu_edit" />
 
-    <TextView
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:src="@drawable/edit"
+
+            android:layout_weight="1"
+
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/change_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="9dp"
+        android:layout_below="@+id/about_btn"
+        android:layout_marginTop="40dp"
+        android:paddingEnd="9dp"
+        android:weightSum="10"
+        >
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/call"
+            android:backgroundTint="@color/colorPrimary" />
+
+
+        <TextView
         android:id="@+id/number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="54dp"
-        android:layout_marginTop="422dp"
+            android:paddingStart="15dp"
+            android:layout_weight="8"
         android:text="@string/mobilenumber"
         android:textColor="@color/colorBlack" />
 
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="16dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-
-        android:layout_marginTop="424dp"
-        android:layout_marginEnd="319dp"
-        android:background="@drawable/call"
-
-        android:backgroundTint="@color/colorPrimary" />
 
 
-    <ImageButton
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:src="@drawable/edit"
+            android:layout_weight="1"
 
-        android:id="@+id/Disp_name"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="325dp"
-        android:layout_marginEnd="35dp"
-
-        android:background="@android:drawable/ic_menu_edit" />
+            />
+    </LinearLayout>
 
 
-    <ImageButton
-        android:id="@+id/change_no"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="421dp"
-        android:layout_marginEnd="34dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="9dp"
+      android:layout_below="@id/change_no"
+        android:layout_marginTop="30dp"
+        android:paddingEnd="9dp"
+        android:weightSum="9"
+        >
 
-        android:background="@android:drawable/ic_menu_edit" />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/email"
+            android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/user_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="53dp"
-        android:layout_marginTop="453dp"
+        android:layout_weight="8"
+        android:paddingStart="15dp"
         android:text="varadeabhijeet@gmail.com"
         android:textColor="@color/colorBlack" />
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="16dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
 
-        android:layout_marginTop="455dp"
-        android:layout_marginEnd="319dp"
-        android:background="@drawable/email"
-
-        android:contentDescription="TODO" />
+    </LinearLayout>
 
 
 </RelativeLayout>

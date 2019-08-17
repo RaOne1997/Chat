@@ -3,15 +3,16 @@ package com.example.chat;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
+
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.chat.image_view.ui.profile_image;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,33 +41,39 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 import static com.google.firebase.storage.FirebaseStorage.getInstance;
 
 public class prof extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser c_user;
-    boolean cameraAcceoted;
     boolean writestorageAcceoted;
     StorageReference profile_storage = getInstance().getReference();
-    String storagepath = "User_profile__cover_Image/";
     FirebaseDatabase firebaseDatabasep;
     DatabaseReference databaseReferencep;
-    private static final int Camera_request_code = 100;
     private static final int Storage_request_code = 200;
-    private static final int Image_pick_camera_code = 400;
     private static final int Imge_pick_Gallery_code = 300;
-    FloatingActionButton fab;
     TextView user_name, user_about, user_no, user_email;
     ImageView cover;
-    ImageView avater;
+    CircleImageView avater;
+
+    String storagepath="User_profile_cover";
     ProgressDialog procd;
-    private static final int galary_p = 1;
     String cameraPermission[];
     String storagePermission[];
-    ImageButton dpchange, changec, changename, changeno, changeAbout;
+    ImageButton dpchange,changec;
+    LinearLayout changename,  changeno, changeAbout;
     Uri image_uri;
     String profileorcover;
 
@@ -92,7 +101,7 @@ public class prof extends AppCompatActivity {
         avater = findViewById(R.id.Dp_pic);
         procd = new ProgressDialog(this);
         dpchange = findViewById(R.id.Dp_change);
-        changename = findViewById(R.id.Disp_name);
+        changename = findViewById(R.id.editdisplay);
         changeno = findViewById(R.id.change_no);
         changeAbout = findViewById(R.id.about_btn);
         changec = findViewById(R.id.cover_change);
@@ -117,7 +126,7 @@ public class prof extends AppCompatActivity {
                     user_no.setText(phone);
                     try {
 
-                        Picasso.get().load(image).into(avater);
+                        Picasso.get().load(image).placeholder(R.drawable.images).into(avater);
 
                     } catch (Exception e) {
 
@@ -153,7 +162,11 @@ public class prof extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 procd.setMessage("Uploding profile");
-                showImagePicDialog();
+                if (!checkstoragepermission()) {
+                    requestStoragepremission();
+                } else {
+                    pickFromGallery();
+                }
                 profileorcover = "image";
             }
         });
@@ -162,7 +175,11 @@ public class prof extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 procd.setMessage("Uploding Cover");
-                showImagePicDialog();
+                if (!checkstoragepermission()) {
+                    requestStoragepremission();
+                } else {
+                    pickFromGallerycover();
+                }
                 profileorcover = "cover";
             }
         });
@@ -179,8 +196,10 @@ public class prof extends AppCompatActivity {
             public void onClick(View v) {
 
                 procd.setMessage("Uploding About");
-                showNameAboutNumberUplode("about");
-
+                String status_value= user_about.getText().toString();
+                Intent ab=new Intent(prof.this,about.class);
+                ab.putExtra("Status_value",status_value);
+                startActivity(ab);
 
             }
         });
@@ -192,9 +211,20 @@ public class prof extends AppCompatActivity {
 
             }
         });
-        return ;
+
+        avater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pview= new Intent(prof.this, profile_image.class);
+                startActivity(pview);
+            }
+        });
+
+        return;
 
     }
+
+
 
 
     private boolean checkstoragepermission() {
@@ -210,7 +240,7 @@ public class prof extends AppCompatActivity {
 
     }
 
-    private boolean checkCamerapermission() {
+   /* private boolean checkCamerapermission() {
 
         boolean result = ContextCompat.checkSelfPermission(prof.this, Manifest.permission.CAMERA)
                 == (PackageManager.PERMISSION_GRANTED);
@@ -221,10 +251,10 @@ public class prof extends AppCompatActivity {
     }
 
     private void requestCamerapremission() {
-        requestPermissions(cameraPermission, Camera_request_code);
+        requestPermissions(cameraPermission, Camera_request_code);*/
 
 
-    }
+
 
 
     private void showNameAboutNumberUplode(final String Key) {
@@ -232,7 +262,7 @@ public class prof extends AppCompatActivity {
         builder.setTitle("Update" + Key);
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setPadding(10, 10, 10, 10);
+        linearLayout.setPadding(10,10, 10, 10);
         final EditText editText = new EditText(this);
         editText.setHint("Enter" + Key);
         linearLayout.addView(editText);
@@ -277,7 +307,8 @@ public class prof extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void showImagePicDialog() {
+
+  /*  private void showImagePicDialog() {
         String option[] = {"camera", "Gallery", "remove"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("choase Action");
@@ -289,7 +320,7 @@ public class prof extends AppCompatActivity {
                     if (!checkCamerapermission()) {
                         requestCamerapremission();
                     } else {
-                        pickFromCamera();
+                       pickFromCamera();
                     }
                 } else if (which == 1) {
                     if (!checkstoragepermission()) {
@@ -306,131 +337,139 @@ public class prof extends AppCompatActivity {
             }
         });
         builder.create().show();
+
+
+  /*  private void pickFromCamera() {
+
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "temp pic");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "temp DESCRIPTION");
+        image_uri = this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        Intent cameraInt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraInt.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityForResult(cameraInt, Image_pick_camera_code);
+    }*/
+
+    private void pickFromGallery() {
+
+       CropImage.activity()
+               .setAspectRatio(1,1)
+
+               .setGuidelines(CropImageView.Guidelines.ON)
+               .start(this);
     }
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case Camera_request_code: {
-                if (grantResults.length > 0) {
-                    cameraAcceoted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    writestorageAcceoted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                    if (cameraAcceoted && writestorageAcceoted) {
+        if (requestCode == Storage_request_code) {
+            if (grantResults.length > 0) {
+                writestorageAcceoted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                if (writestorageAcceoted) {
 
-                        pickFromCamera();
-                    } else {
-                        Toast.makeText(this, "please enable camera & storage Permission", Toast.LENGTH_SHORT).show();
-                    }
+                    pickFromGallery();
+                } else {
+                    Toast.makeText(this, "please enable  storage Permission", Toast.LENGTH_SHORT).show();
                 }
             }
-            break;
-            case Storage_request_code: {
-                if (grantResults.length > 0) {
-                    writestorageAcceoted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                    if (writestorageAcceoted) {
-
-                        pickFromGallery();
-                    } else {
-                        Toast.makeText(this, "please enable  storage Permission", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-            }
-            break;
         }
 
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == Imge_pick_Gallery_code && resultCode == RESULT_OK) {
+       if (requestCode == Imge_pick_Gallery_code) {
 
             image_uri = data.getData();
 
-            uplodepic(image_uri);
+            CropImage.activity(image_uri)
+                    .setAspectRatio(4, 2)
+                    .start(this);
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+
+            final CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                procd.setTitle("Uploding");
+                procd.setMessage("plz w8t");
+                procd.show();
+
+              Uri Resultur = result.getUri();
 
 
 
-            if (resultCode == Image_pick_camera_code ) {
-                uplodepic(image_uri);
+                procd.show();
+                String filepathandName = storagepath+""+profileorcover+""+c_user.getUid();
+
+                StorageReference storageReference=profile_storage.child(filepathandName);
+                storageReference.putFile(Resultur)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                                while (!uriTask.isSuccessful());
+                                Uri download_uri=uriTask.getResult();
+                                if (uriTask.isSuccessful()){
+                                    HashMap<String,Object>
+                                            result=new HashMap<>();
+                                    result.put(profileorcover,download_uri.toString());
+
+                                    databaseReferencep.child(c_user.getUid()).updateChildren(result)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    procd.dismiss();
+                                                    Toast.makeText(prof.this,"Image Uploded..........",Toast.LENGTH_SHORT).show();
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            procd.dismiss();
+                                            Toast.makeText(prof.this,"error..........",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }else {
+                                    procd.dismiss();
+
+                                    Toast.makeText(prof.this,"some error Uploded..........",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        procd.dismiss();
+                    }
+                });
+
+
+
+
+
+
+                if (resultCode == Imge_pick_Gallery_code) {
+
             }
 
 
-            super.onActivityResult(requestCode, resultCode, data);
+                super.onActivityResult(requestCode, resultCode, data);
+
+            }
+
+
 
         }
-    }
-
-    private void uplodepic(final Uri uri) {
 
 
-        procd.show();
-        String filepathandName = storagepath+""+profileorcover+""+c_user.getUid();
-
-        StorageReference storageReference=profile_storage.child(filepathandName);
-        storageReference.putFile(uri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while (!uriTask.isSuccessful());
-                        Uri download_uri=uriTask.getResult();
-                        if (uriTask.isSuccessful()){
-                            HashMap<String,Object>
-                                    result=new HashMap<>();
-                            result.put(profileorcover,download_uri.toString());
-
-                            databaseReferencep.child(c_user.getUid()).updateChildren(result)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            procd.dismiss();
-                                            Toast.makeText(prof.this,"Image Uploded..........",Toast.LENGTH_SHORT).show();
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    procd.dismiss();
-                                    Toast.makeText(prof.this,"error..........",Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }else {
-                            procd.dismiss();
-
-                            Toast.makeText(prof.this,"some error Uploded..........",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                procd.dismiss();
-            }
-        });
 
 
     }
-
-    private void pickFromCamera() {
-        ContentValues values=new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE,"temp pic");
-        values.put(MediaStore.Images.Media.DESCRIPTION,"temp DESCRIPTION");
-        image_uri=this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
-
-        Intent cameraInt=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraInt.putExtra(MediaStore.EXTRA_OUTPUT,image_uri);
-        startActivityForResult(cameraInt,Image_pick_camera_code);
-    }
-
-    private void pickFromGallery() {
-        Intent gallery = new Intent();
+    private void pickFromGallerycover() {
+         Intent gallery = new Intent();
         gallery.setType("image/*");
         gallery.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(gallery, "selectpic"), Imge_pick_Gallery_code);
 
     }
-
-
-
 }
 

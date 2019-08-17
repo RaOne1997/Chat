@@ -26,6 +26,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -141,16 +142,30 @@ public class regirester extends AppCompatActivity {
                 if (task.isSuccessful()) {
 
 
-                    FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
-             /*    if(current_user.isEmailVerified()){
+                     FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
+         /*   current_user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
 
+                    if (task.isSuccessful()){
+                        prg_dig.show();
+                        prg_dig.setMessage("veryfing");
 
+                    }else{
+                        prg_dig.dismiss();
+                        Toast.makeText(regirester.this,"verifing error0",Toast.LENGTH_SHORT).show();
                     }
-                    else{
-                        current_user.sendEmailVerification();
-                    }*/
 
-                    String  email=current_user.getEmail();
+                }
+            }) ;  */
+
+
+
+
+
+
+
+                                String  email=current_user.getEmail();
                     String uid=current_user.getUid();
                     HashMap<Object,String> user_map=new HashMap<>();
                     user_map.put("email",email);
@@ -160,11 +175,12 @@ public class regirester extends AppCompatActivity {
                     user_map.put("cover","");
                     user_map.put("image","");
                     user_map.put("about","hey_i_am_using_schat");
+                    user_map.put("thumbnail","");
                     mdkatabase=FirebaseDatabase.getInstance().getReference().child("users").child(uid);
 
                     mdkatabase.setValue(user_map);
 
-                    Toast.makeText(regirester.this,"RRRREEE....\n"+ current_user.getEmail(),Toast.LENGTH_SHORT).show();
+                   Toast.makeText(regirester.this,"RRRREEE....\n"+ current_user.getEmail(),Toast.LENGTH_SHORT).show();
                     Intent prof=new Intent(regirester.this,DashBoard.class);
                     prof.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(prof);
